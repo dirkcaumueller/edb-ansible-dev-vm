@@ -15,6 +15,7 @@ Vagrant.configure("2") do |config|
   config.hostmanager.manage_guest = true
   config.hostmanager.ignore_private_ip = false
   config.hostmanager.include_offline = true
+  config.vbguest.auto_update = true
 
   cluster.each_with_index do |(hostname, info), index|
     config.vm.define hostname do |cfg|
@@ -22,7 +23,6 @@ Vagrant.configure("2") do |config|
 
         config.vm.box = info[:box]
         config.vm.box_check_update = true
-        config.vbguest.auto_update = true
         override.vm.hostname = hostname
         override.vm.network :private_network, ip: "#{info[:ip]}"
         vb.customize ["modifyvm", :id, "--name", info[:vm_id]]
